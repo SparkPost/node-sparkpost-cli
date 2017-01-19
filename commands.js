@@ -1,58 +1,87 @@
 'use strict';
 
-module.exports = [
-  require('./commands/config'),
-  require('./commands/launchpad'),
-  {
-    command: 'inbound-domains',
+module.exports = {
+  config: require('./commands/config'),
+  'inbound-domains': {
     default: true,
-    commands: [
-      {
-        command: 'create',
+    commands: {
+      create: {
         options: {
           domain: { demand: true }
+        },
+        map: function(keys, values) {
+          let domain = values[0];
+          return [ { domain } ];
         }
       }
-    ]
+    }
   },
-  {
-    command: 'inbound-domains',
+  'message-events': {
+    default: true,
+    commands: {
+      search: {
+        options: {
+          bounce_classes: {},
+          campaign_ids: {},
+          delimiter: {},
+          events: {},
+          friendly_froms: {},
+          from: {},
+          message_ids: {},
+          page: {},
+          per_page: {},
+          reason: {},
+          recipients: {},
+          subaccounts: {},
+          template_ids: {},
+          timezone: {},
+          to: {},
+          transmission_ids: {},
+        },
+      }
+    }
+  },
+  'relay-webhooks': {
+    default: true,
+    commands: {
+      create: {
+        options: {
+          name: {},
+          target: {},
+          auth_token: {},
+          'match.protocol': {},
+          'match.domain': {},
+          'match.esme_address': {}
+        },
+        map: (keys, values, argv) => {
+          return [{
+            name: values[0],
+            target: values[1],
+            auth_token: values[2],
+            match: values[3],
+          }];
+        }
+      },
+    }
+  },
+  'sending-domains': {
     default: true,
   },
-  {
-    command: 'message-events',
+  'subaccounts': {
     default: true,
   },
-  {
-    command: 'recipient-lists',
+  'suppression-list': {
     default: true,
   },
-  {
-    command: 'relay-webhooks',
+  'templates': {
     default: true,
   },
-  {
-    command: 'sending-domains',
+  'transmissions': {
     default: true,
   },
-  {
-    command: 'subaccounts',
-    default: true,
+  'webhooks': {
+    default: true
   },
-  {
-    command: 'suppression-list',
-    default: true,
-  },
-  {
-    command: 'templates',
-    default: true,
-  },
-  {
-    command: 'transmissions',
-    default: true,
-  },
-  {
-    command: 'webhooks',
-    default: true,
-  },
-];
+};
+
+// TODO: recipient-lists
