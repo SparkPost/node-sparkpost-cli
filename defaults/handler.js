@@ -10,10 +10,10 @@ const isJSON = require('is-json');
  * @param {string} command - the command this is for
  */
 module.exports = function(argv) {
-  let keys = getOptionKeys(this.options || {});
+  let keys = getOptionKeys(_.get(this, 'options') || {});
   let values = getGivenOptions(keys, argv);
-  values = this.map(keys, values);
-  
+  values = this.map(keys, values, argv);
+
   values.push(this.callback);
   this.action.apply(this, values);
 };
@@ -29,7 +29,7 @@ function getGivenOptions(optionsKeys, argv) {
   let givenOptions = [];
 
   _.each(optionsKeys, (key) => {
-    let value = argv[key] || null;
+    let value = _.get(argv, key) || null;
     givenOptions.push(isJSON(value) ? JSON.parse(value) : value);
   });
 
