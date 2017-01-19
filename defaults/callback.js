@@ -22,6 +22,6 @@ module.exports = function(err, results) {
     return;
   }
 
-  console.log(chalk.green('Results:'));
+  console.log(chalk.green('Results'));
   console.log(JSON.stringify(_.defaultTo(_.get(results, 'results'), results), null, 2));
 };

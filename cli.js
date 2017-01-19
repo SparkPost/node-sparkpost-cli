@@ -14,6 +14,7 @@ const defaultHandler = require('./defaults/handler');
 const defaultMap = require('./defaults/map');
 const defaultAction = require('./defaults/action');
 const defaultCallback = require('./defaults/callback');
+const generateBuilder = require('./defaults/generate-builder');
 
 runCLI();
 
@@ -33,6 +34,11 @@ function runCLI() {
   });
 
   yargs.recommendCommands().help('help').wrap(null).argv;
+
+  // show help if nothing is called
+  if (yargs.argv._.length < 1) {
+    yargs.showHelp();
+  }
 }
 
 function getCustomCommands() {
@@ -71,22 +77,17 @@ function setCommandDefaults(module) {
     handler: defaultHandler,
     map: defaultMap,
     action: defaultAction,
-    callback: defaultCallback
+    callback: defaultCallback,
+    showMessage: function() {
+      if (this.message) {
+        return console.log(this.message);
+      }
+      
+      return this.yargs.showHelp();
+    }
   });
 
-  // add the options key in as options
-  if (_.has(defaultedModule, 'options')) {
-    let originalBuilder = defaultedModule.builder;
-
-    defaultedModule.builder = function(yargs) {
-      yargs.options(this.options);
-
-      if (_.isFunction(originalBuilder))
-        return originalBuilder.apply(this, [yargs]);
-
-      return yargs;
-    };
-  }
+  defaultedModule.builder = generateBuilder(defaultedModule);
 
   return defaultedModule;
 }
