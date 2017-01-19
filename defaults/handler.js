@@ -10,6 +10,10 @@ const isJSON = require('is-json');
  * @param {string} command - the command this is for
  */
 module.exports = function(argv) {
+  if (this.commandNotFound) {
+    return console.log(`Unknown subcommand: ${this.commandNotFound}`);
+  }
+
   let keys = getOptionKeys(_.get(this, 'options') || {});
   let values = getGivenOptions(keys, argv);
   values = this.map(keys, values, argv);
@@ -28,9 +32,17 @@ module.exports = function(argv) {
 function getGivenOptions(optionsKeys, argv) {
   let givenOptions = [];
 
+  let usedKeys = []
+
   _.each(optionsKeys, (key) => {
-    let value = _.get(argv, key) || null;
+    let topKey = _.first(_.split(key, '.'));
+
+    if (_.includes(usedKeys, topKey))
+      return;
+
+    let value = _.get(argv, topKey) || null;
     givenOptions.push(isJSON(value) ? JSON.parse(value) : value);
+    usedKeys.push(topKey);
   });
 
   return givenOptions;
