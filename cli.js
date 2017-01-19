@@ -20,8 +20,8 @@ runCLI();
 function runCLI() {
   const yargs = require('yargs');
 
-  const customCommands = require('./commands');
-  defaultFromSparkPost(sparkpost, customCommands);
+  let customCommands = getCustomCommands();
+  customCommands = defaultFromSparkPost(sparkpost, customCommands);
 
   _.each(customCommands, (module) => {
     yargs.command(subbable(module, (module) => {
@@ -33,6 +33,10 @@ function runCLI() {
   });
 
   yargs.recommendCommands().help('help').wrap(null).argv;
+}
+
+function getCustomCommands() {
+  return require('./commands');
 }
 
 /**
@@ -61,7 +65,6 @@ function setOptionDefaults(module) {
 function setCommandDefaults(module) {
   let defaultedModule = {};
 
-  // se
   _.defaults(defaultedModule, module, {
     options: {},
     describe: `${module.command} command`,
