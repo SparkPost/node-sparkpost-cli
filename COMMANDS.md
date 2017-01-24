@@ -1,5 +1,7 @@
 # Commands.js
 
+The CLI is designed to be extensible. You can easily add your own commands or the modify generated commands through `commands.js`.
+
 ## Adding commands
 
 All commands should be added in the `commands.js` file.

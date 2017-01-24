@@ -7,6 +7,9 @@ Transparency is one of our core values, and we encourage developers to contribut
 You can create an issue [here](https://github.com/SparkPost/node-sparkpost-cli/issues). Please include as many details as possible with your report in addition to the version are using (You can get it via `sparkpost --version`).
 
 
+## Extending the CLI
+You can easily extend the CLI to add your own commands or modify generated commands through [commands.js](https://github.com/SparkPost/node-sparkpost-cli/blob/master/COMMANDS.md).
+
 ## Contribution Steps
 1. Fork this repository
 2. Create a new branch named after the issue you’ll be fixing (include the issue number as the branch name, example: Issue in GH is #8 then the branch name should be ISSUE-8)) 

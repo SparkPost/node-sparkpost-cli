@@ -77,4 +77,8 @@ For a full list of commands run `sparkpost --help`.
 * Note: this tool is still young. To migrate your suppression list from SendGrid or Mandrill, please use our other [CLI tool](https://github.com/SparkPost/sparkpost-cli). PRs welcome :)
 
 
+# Contributing
+
+We love community contributions. Checkout [CONTRIBUTING.md](https://github.com/SparkPost/node-sparkpost-cli/blob/master/CONTRIBUTING.md) and [COMMANDS.md](https://github.com/SparkPost/node-sparkpost-cli/blob/master/COMMANDS.md) for guides on adding to the CLI. 
+
 [sparkpost sign up]: https://app.sparkpost.com/sign-up
