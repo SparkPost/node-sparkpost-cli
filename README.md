@@ -4,12 +4,12 @@
 
 # SparkPost Command Line Interface
 
-Interact with the SparkPost API from the command line.
+A command-line interface to SparkPost.
 
 
 ## Installation
 
-The easiest way to install the cli is through npm.
+The easiest way to install the CLI is through npm.
 
 ```
 npm install sparkpost-cli -g
@@ -25,18 +25,60 @@ npm link
 
 
 ## Configuring
-To start using the cli you have to give it an API key associated with your account. You can specify your API key through the environment variable `SPARKPOST_API_KEY` or the `config` command.
+To start using the CLI you have to give it an API key associated with your account. You can specify your API key through the environment variable `SPARKPOST_API_KEY` or the `config` command.
 
 ```
+// using an env variable
+export SPARKPOST_API_KEY=MY_SPARKPOST_API_KEY
+// using the CLI
 sparkpost config --key=MY_SPARKPOST_API_KEY
 ```
 
 
+## Getting Help
+
+### `--help`
+Use the `--help` flag on any command to get information about any subcommands and options it takes.
+
+```
+sparkpost inbound-domains --help
+```
+```
+Commands:
+  list    list sending domains
+  get     get a sending domain
+  create  create a sending domain
+  update  update a sending domain
+  delete  delete a sending domain
+  verify  verify a sending domain
+
+Options:
+  --docs  Open documentation  [boolean]
+  --help  Show help  [boolean]
+```
+
+### `--docs`
+On any of the endpoint commands you can use the `--docs` flag to open up the full documentation in your browser.
+
+```
+sparkpost transmissions --docs
+```
+
+
+## Basic Commands
+For a full list of commands run `sparkpost --help`.
+
+* `sparkpost config` | Configure the CLI to your account
+* `sparkpost [endpoint] [command]` | Call the specified endpoint <br>Supported enpoints include: `inbound-domains`
+
+
 ## Tips
+* Using an elite account? Set `sparkpost config --origin=YOUR_ORIGIN` to use the CLI.
+* Note: this tool is still young. To migrate your suppression list from SendGrid or Mandrill, please use our other [CLI tool](https://github.com/SparkPost/sparkpost-cli). PRs welcome :)
 
-* To open up the docs for an endpoint use the `--docs` flag. For example, `sparkpost inbound-domains --docs`.
-* Using an elite account? Set `sparkpost config --origin=YOUR_ORIGIN` to use the cli.
-* To migrate from mandrill or sendgrid use our other [cli tool](https://github.com/SparkPost/sparkpost-cli).
 
+# Contributing
+
+We love community contributions. Checkout [CONTRIBUTING.md](https://github.com/SparkPost/node-sparkpost-cli/blob/master/CONTRIBUTING.md) and [COMMANDS.md](https://github.com/SparkPost/node-sparkpost-cli/blob/master/COMMANDS.md) for guides on adding to the CLI. 
 
 [sparkpost sign up]: https://app.sparkpost.com/sign-up
