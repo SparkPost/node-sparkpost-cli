@@ -61,15 +61,16 @@ Options:
 On any of the endpoint commands you can use the `--docs` flag to open up the full documentation in your browser.
 
 ```
-sparkpost transmissions --docs
+sparkpost sending-domains --docs
 ```
 
 
 ## Basic Commands
 For a full list of commands run `sparkpost --help`.
 
-* `sparkpost config` | Configure the CLI to your account
-* `sparkpost [endpoint] [command]` | Call the specified endpoint <br>Supported enpoints include: `inbound-domains`
+* `sparkpost config` - Configure the CLI to your account
+* `sparkpost account` - Configure the CLI to your account
+* `sparkpost [endpoint] [command]` - Call the specified endpoint and command <br>Supported endpoints include: `inbound-domains`, `message-events`, `relay-webhooks`, `sending-domains`, `subaccounts`, `webhooks`
 
 
 ## Tips

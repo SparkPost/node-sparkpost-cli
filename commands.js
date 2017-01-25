@@ -29,7 +29,7 @@ module.exports = {
     command: 'sending-domains',
     id: 'domain',
     commands: ['create', 'update', 'verify', 'get', 'delete'],
-    options: ['domain', 'tracking_domain', 'status', 'dkim.signing_domain', 'dkim.private', 'dkim.public', 'dkim.selector', 'dkim.headers', 'generate_dkim', 'dkim_key_length', 'shared_with_subaccounts'],
+    options: ['domain', 'tracking_domain', 'dkim.signing_domain', 'dkim.private', 'dkim.public', 'dkim.selector', 'dkim.headers', 'generate_dkim', 'dkim_key_length', 'shared_with_subaccounts'],
     verify_options: { 'dkim_verify': { type: 'boolean' }, 'spf_verify': { type: 'boolean' }, 'postmaster_at_verify': { type: 'boolean' }, 'abuse_at_verify': { type: 'boolean' }, 'postmaster_at_token': {}, 'abuse_at_token': {} }
   }, { default: true }),
 
