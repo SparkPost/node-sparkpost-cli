@@ -2,36 +2,64 @@
 
 const chalk = require('chalk');
 const _ = require('lodash');
-const line = chalk.white('-------------------');
+const prettyjson = require('prettyjson');
+const prettyOptions = {
+  emptyArrayMsg: '[]'
+};
+const isJSON = require('../lib/helpers').isJSON;
 
 module.exports = function(err, results) {
-  if (_.isString(results))
+  if (isJSON(results))
     results = JSON.parse(results);
-
-  // before all
-  console.log();
-  console.log(line);
 
   if (err) {
     if (err.name === 'SparkPostError') {
       console.log(chalk.red(`Error ${err.statusCode}`));
-      console.log(line);
       if (_.has(err, 'errors') && !_.isUndefined(err.errors)) {
-        console.log(JSON.stringify(err.errors, null, 2));
+        if (err.errors.length === 1)
+          err.errors = err.errors[0];
+
+        console.log(prettyjson.render(err.errors, prettyOptions));
       }
     }
     else {
       console.log(chalk.red('Error'));
-      console.log(line);
       console.log(err.message);
     }
   }
   else {
-    console.log(chalk.green('Results'));
-    console.log(line);
-    console.log(JSON.stringify(_.defaultTo(_.get(results, 'results'), results), null, 2));
-  }
+    if (!_.isEmpty(results)) {
+      results = _.defaultTo(_.get(results, 'results'), results);
 
-  // after all
-  console.log();
+      if (_.isArray(results)) {
+        results = flatten(results);
+      }
+
+      console.log(prettyjson.render(results, prettyOptions));
+    }
+    else {
+      console.log(chalk.green('Success'));
+    }
+  }
 };
+
+
+/**
+ * takes an array and flattens it to simplify the output
+ */
+function flatten(results) {
+  let flattenedResults = [];
+
+  let successfullyFlattened = true;
+
+  _.each(results, (result) => {
+    if (_.isPlainObject(result) && _.keys(result).length == 1) {
+      flattenedResults.push(_.first(_.toArray(result)));
+    }
+    else {
+      successfullyFlattened = false;
+    }
+  })
+
+  return successfullyFlattened ? flattenedResults : results;
+}

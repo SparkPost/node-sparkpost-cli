@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const isJSON = require('is-json');
+const isJSON = require('../lib/helpers').isJSON;
 
 /**
  * the default handler for the cli command
@@ -15,7 +15,8 @@ module.exports = function(argv) {
   }
 
   let keys = getOptionKeys(_.get(this, 'options') || {});
-  let values = getGivenOptions(keys, argv);
+  let values = getOptionValues(keys, argv);
+
   values = this.map(keys, values, argv);
 
   values.push(this.callback);
@@ -23,31 +24,34 @@ module.exports = function(argv) {
 };
 
 /**
- * gets the options given from the argv
+ * gets the option values given from the argv
  *
  * @param {Array} optionsKeys - the options asked for
  * @params {object} argv - the given values from clis
  * @returns {array} givenOptions - the values that were asked for - null if not given
  */
-function getGivenOptions(optionsKeys, argv) {
+function getOptionValues(optionsKeys, argv) {
+  optionsKeys = _.uniq(_.map(optionsKeys, (key) => {
+      return key.split('.')[0];
+    }));
+
   let givenOptions = [];
 
-  let usedKeys = []
-
   _.each(optionsKeys, (key) => {
-    let topKey = _.first(_.split(key, '.'));
-
-    if (_.includes(usedKeys, topKey))
-      return;
-
-    let value = _.get(argv, topKey) || null;
+    let value = _.get(argv, key) || null;
     givenOptions.push(isJSON(value) ? JSON.parse(value) : value);
-    usedKeys.push(topKey);
   });
 
   return givenOptions;
 }
 
+
+/**
+ * gets the option keys in the order they were originally given
+ *
+ * @param {Object} options - the option object from the module
+ * @return {Array} keys - the keys of the options
+ */
 function getOptionKeys(options) {
   let optionsArray = _.map(options, (option, name) => {
     option.name = name;

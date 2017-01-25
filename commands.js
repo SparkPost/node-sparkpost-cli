@@ -1,87 +1,64 @@
 'use strict';
 
+const _ = require('lodash');
+const crudSubcommands = require('./lib/helpers').crudSubcommands;
+const crudMap = require('./lib/helpers').crudMap;
+
 module.exports = {
-  config: require('./commands/config'),
-  'inbound-domains': {
-    default: true,
-    commands: {
-      create: {
-        options: {
-          domain: { demand: true }
-        },
-        map: function(keys, values) {
-          let domain = values[0];
-          return [ { domain } ];
-        }
-      }
-    }
-  },
+  'config': require('./commands/config'),
+
+  'inbound-domains': require('./commands/inbound-domains'),
+
   'message-events': {
     default: true,
     commands: {
       search: {
-        options: {
-          bounce_classes: {},
-          campaign_ids: {},
-          delimiter: {},
-          events: {},
-          friendly_froms: {},
-          from: {},
-          message_ids: {},
-          page: {},
-          per_page: {},
-          reason: {},
-          recipients: {},
-          subaccounts: {},
-          template_ids: {},
-          timezone: {},
-          to: {},
-          transmission_ids: {},
-        },
+        options: ['bounce_classes', 'campaign_ids ', 'delimiter', 'events', 'friendly_froms', 'from ', 'message_ids', 'page', 'per_page', 'reason', 'recipients', 'subaccounts', 'template_ids ', 'timezone', 'to', 'transmission_ids'],
+        map: crudMap
       }
     }
   },
-  'relay-webhooks': {
-    default: true,
-    commands: {
-      create: {
-        options: {
-          name: {},
-          target: {},
-          auth_token: {},
-          'match.protocol': {},
-          'match.domain': {},
-          'match.esme_address': {}
-        },
-        map: (keys, values, argv) => {
-          return [{
-            name: values[0],
-            target: values[1],
-            auth_token: values[2],
-            match: values[3],
-          }];
-        }
-      },
+
+  'relay-webhooks': crudSubcommands({
+    command: 'relay-webhooks',
+    commands: ['create', 'update', 'get', 'delete'],
+    options: ['name', 'target', 'auth_token', 'match.protocol', 'match.domain', 'match.esme_address']
+  }, { default: true }),
+
+  'sending-domains': crudSubcommands({
+    command: 'sending-domains',
+    id: 'domain',
+    commands: ['create', 'update', 'verify', 'get', 'delete'],
+    options: ['domain', 'tracking_domain', 'status', 'dkim.signing_domain', 'dkim.private', 'dkim.public', 'dkim.selector', 'dkim.headers', 'generate_dkim', 'dkim_key_length', 'shared_with_subaccounts'],
+    verify_options: { 'dkim_verify': { type: 'boolean' }, 'spf_verify': { type: 'boolean' }, 'postmaster_at_verify': { type: 'boolean' }, 'abuse_at_verify': { type: 'boolean' }, 'postmaster_at_token': {}, 'abuse_at_token': {} }
+  }, { default: true }),
+
+  'subaccounts': crudSubcommands({
+    command: 'subaccounts',
+    commands: ['create', 'update', 'get'],
+    create_options: { 'name': {}, 'key_label': {}, 'key_grants': { type: 'array' }, 'key_valid_ips': { type: 'array' }, 'ip_pool': {} },
+    update_options: ['name', 'status', 'ip_pool']
+  }, { default: true }),
+
+  'webhooks': crudSubcommands({
+    command: 'webhooks',
+    commands: ['create', 'update', 'get', 'delete', 'list', 'validate', 'get-batch-status', 'get-documentation', 'get-samples'],
+    options: { 'name': {}, 'target': {}, 'events': { type: 'array' }, 'auth_type': {}, 'auth_request_details': {}, 'auth_credentials': {}, 'auth_token': {} },
+    validate_options: ['message'],
+    filters: ['timezone'],
+    'get-batch-status_filters': ['limit'],
+    'get-samples_filters': ['events'],
+  }, { default: true }),
+
+  'account': {
+    describe: 'Get account information',
+    action: function(callback) {
+      this.sparkpost.request({
+        uri: 'account'
+      }, callback);
     }
-  },
-  'sending-domains': {
-    default: true,
-  },
-  'subaccounts': {
-    default: true,
-  },
-  'suppression-list': {
-    default: true,
-  },
-  'templates': {
-    default: true,
-  },
-  'transmissions': {
-    default: true,
-  },
-  'webhooks': {
-    default: true
   },
 };
 
-// TODO: recipient-lists
+// TODO: recipient-lists, suppression-list, templates, transmissions
+// CUSTOM COMMANDS: bounce-domains, ip-pools, metrics, sending-ips, tracking-domains

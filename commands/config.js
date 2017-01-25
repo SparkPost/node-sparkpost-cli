@@ -1,4 +1,5 @@
-const store = require('../lib/store');
+const store = require('../lib/helpers').store;
+const _ = require('lodash');
 
 module.exports = {
   command: 'config',
@@ -22,12 +23,11 @@ module.exports = {
     }
 
     if (clear) {
-      updated = true;
       store.set('config', {});
     }
 
     if (updated)  {
-      console.log('Successfully updated:');
+      console.log('Successfully updated');
     }   
 
     let config = store.get('config');
@@ -35,6 +35,10 @@ module.exports = {
     if (config.key) {
       config.key = config.key.substring(0, 4) + config.key.substring(4).replace(/./g, '*');
     }
-    console.log(config);
+
+    if (_.isEmpty(config))
+      config = 'No Configuration';
+
+    callback(null, config);
   }
 };
