@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const crudSubcommands = require('./lib/helpers').crudSubcommands;
 const crudMap = require('./lib/helpers').crudMap;
+const checkAPIKey = require('./lib/helpers').checkAPIKey;
 
 module.exports = {
   'config': require('./commands/config'),
@@ -53,9 +54,11 @@ module.exports = {
   'account': {
     describe: 'Get account information',
     action: function(callback) {
-      this.sparkpost.request({
-        uri: 'account'
-      }, callback);
+      if (checkAPIKey(this.sparkpost)) {
+        this.sparkpost.request({
+          uri: 'account'
+        }, callback);
+      }
     }
   },
 };
