@@ -44,17 +44,18 @@ Use the `--help` flag on any command to get information about any subcommands an
 sparkpost inbound-domains --help
 ```
 ```
+Usage: sparkpost inbound-domains <command> [options]
+
 Commands:
-  list    list sending domains
-  get     get a sending domain
-  create  create a sending domain
-  update  update a sending domain
-  delete  delete a sending domain
-  verify  verify a sending domain
+  create  create a inbound domain
+  delete  delete a inbound domain
+  get     get a inbound domain
+  list    list inbound domains
 
 Options:
-  --docs  Open documentation  [boolean]
-  --help  Show help  [boolean]
+  --version  Show version number  [boolean]
+  --help     Show help  [boolean]
+  --docs     Open documentation  [boolean]
 ```
 
 ### `--docs`
@@ -69,7 +70,7 @@ sparkpost sending-domains --docs
 For a full list of commands run `sparkpost --help`.
 
 * `sparkpost config` - Configure the CLI to your account
-* `sparkpost account` - Configure the CLI to your account
+* `sparkpost account` - Get your account information
 * `sparkpost [endpoint] [command]` - Call the specified endpoint and command <br>Supported endpoints include: `inbound-domains`, `message-events`, `relay-webhooks`, `sending-domains`, `subaccounts`, `webhooks`
 
 

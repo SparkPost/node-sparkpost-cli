@@ -14,7 +14,7 @@ module.exports = {
     default: true,
     commands: {
       search: {
-        options: ['bounce_classes', 'campaign_ids ', 'delimiter', 'events', 'friendly_froms', 'from ', 'message_ids', 'page', 'per_page', 'reason', 'recipients', 'subaccounts', 'template_ids ', 'timezone', 'to', 'transmission_ids'],
+        options: ['bounce_classes', 'campaign_ids', 'delimiter', 'events', 'friendly_froms', 'from', 'message_ids', 'page', 'per_page', 'reason', 'recipients', 'subaccounts', 'template_ids', 'timezone', 'to', 'transmission_ids'],
         map: crudMap
       }
     }
