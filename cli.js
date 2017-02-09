@@ -4,9 +4,9 @@
 const _ = require('lodash');
 const store = require('./lib/helpers').store;
 const wrapFunction = require('./lib/helpers').wrapFunction;
-const SPARKPOST_API_KEY = _.get(store.get('config'), 'key') || process.env.SPARKPOST_API_KEY || null;
+const SPARKPOST_API_KEY = _.get(store.get('config'), 'key') || process.env.SPARKPOST_API_KEY || 'noop';
 const SparkPost = require('sparkpost');
-const sparkpost = new SparkPost(SPARKPOST_API_KEY || 'noop');
+const sparkpost = new SparkPost(SPARKPOST_API_KEY);
 const subbable = require('./lib/subbable');
 const defaultFromSparkPost = require('./lib/default-from-sparkpost');
 
@@ -16,6 +16,8 @@ const defaultMap = require('./defaults/map');
 const defaultAction = require('./defaults/action');
 const defaultCallback = require('./defaults/callback');
 const defaultBuilder = require('./defaults/builder')(sparkpost);
+
+sparkpost._cliAPIKey = SPARKPOST_API_KEY;
 
 const yargs = require('yargs');
 buildCLI(yargs);

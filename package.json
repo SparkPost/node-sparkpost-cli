@@ -15,6 +15,7 @@
     "lodash": "^4.17.2",
     "open": "0.0.5",
     "pluralize": "^3.1.0",
+    "prettyjson": "^1.2.1",
     "sparkpost": "^2.1.2",
     "yargs": "^6.6.0"
   },
