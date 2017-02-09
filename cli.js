@@ -31,6 +31,9 @@ run(yargs);
  */
 function buildCLI(yargs) {
   yargs
+   .version(function() {
+    return require('./package.json').version;
+  })
   .usage('Usage: $0 <command> [options] \n A command-line interface to SparkPost.')
   .help('help')
   .wrap(null);
