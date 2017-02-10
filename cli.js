@@ -9,6 +9,7 @@ const SparkPost = require('sparkpost');
 const sparkpost = new SparkPost(SPARKPOST_API_KEY);
 const subbable = require('./lib/subbable');
 const defaultFromSparkPost = require('./lib/default-from-sparkpost');
+const CLI_NAME = 'sparkpost';
 
 // get defaults
 const defaultHandler = require('./defaults/handler');
@@ -34,7 +35,7 @@ function buildCLI(yargs) {
    .version(function() {
     return require('./package.json').version;
   })
-  .usage('Usage: $0 <command> [options] \n A command-line interface to SparkPost.')
+  .usage(`Usage: ${CLI_NAME} <command> [options] \n A command-line interface to SparkPost.`)
   .help('help')
   .wrap(null);
 }
@@ -127,9 +128,14 @@ function setOptionDefaults(module) {
 function setCommandDefaults(module) {
   let self = {};
 
+  if (module.usage) {
+    module.usage = module.usage.replace(/\$0/g, CLI_NAME);
+  }
+
   _.defaults(self, module, {
     options: {},
     describe: `${module.command} command`,
+    usage: `Usage: ${CLI_NAME} ${module.command}${ _.keys(module.options).length > 0 ? ' [options]' : ''}`,
     handler: defaultHandler,
     map: defaultMap,
     action: defaultAction,
