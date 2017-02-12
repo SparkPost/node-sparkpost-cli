@@ -61,6 +61,8 @@ module.exports = {
       }
     }
   },
+
+  'update': require('./commands/update')
 };
 
 // TODO: recipient-lists, suppression-list, templates, transmissions
