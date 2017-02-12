@@ -23,12 +23,17 @@ function isFromNPM(packageName, callback) {
       callback(false);
     }
     else {
-      let regex = new RegExp(`${packageName}@.*->.*`);
+      let regexForSymLink = new RegExp(`${packageName}@.*->.*`);
+      let regexForFromNPM = new RegExp(`${packageName}`);
       // is symlinked with NPM
-      if (regex.exec(stdout)) {
+      if (regexForSymLink.exec(stdout)) {
         callback(false);
       }
-      // we are good to go from npm
+      // if its not globally installed with npm
+      else if (!regexForFromNPM.exec(stdout)) {
+        callback(false);
+      }
+      // we are good to go to update
       else {
         callback(true);
       }
