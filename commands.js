@@ -51,6 +51,22 @@ module.exports = {
     'get-samples_filters': ['events'],
   }, { default: true }),
 
+  'suppression-list': crudSubcommands({
+    command: 'suppression-list',
+    id: 'recipient',
+    commands: ['upsert', 'get', 'delete', 'list'],
+    options: {'recipients': { describe: 'A JSON array of recipients' } },
+    filters: ['to', 'from', 'domain', 'cursor', 'limit', 'per_page', 'page', 'sources', 'types', 'description'],
+    get_filters: []
+  }, {
+    default: true,
+    commands: {
+      upsert: {
+        map: (keys, values) => values
+      }
+    }
+  }),
+
   'account': {
     describe: 'Get account information',
     action: function(callback) {
@@ -63,5 +79,5 @@ module.exports = {
   },
 };
 
-// TODO: recipient-lists, suppression-list, templates, transmissions
+// TODO: recipient-lists, templates, transmissions
 // CUSTOM COMMANDS: bounce-domains, ip-pools, metrics, sending-ips, tracking-domains
