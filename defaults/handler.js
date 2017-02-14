@@ -1,7 +1,6 @@
 'use strict';
 
 const _ = require('lodash');
-const isJSON = require('../lib/helpers').isJSON;
 
 /**
  * the default handler for the cli command
@@ -38,8 +37,7 @@ function getOptionValues(optionsKeys, argv) {
   let givenOptions = [];
 
   _.each(optionsKeys, (key) => {
-    let value = _.get(argv, key) || null;
-    givenOptions.push(isJSON(value) ? JSON.parse(value) : value);
+    givenOptions.push(_.get(argv, key) || null);
   });
 
   return givenOptions;
