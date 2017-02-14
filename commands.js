@@ -14,7 +14,7 @@ module.exports = {
     default: true,
     commands: {
       search: {
-        options: ['bounce_classes', 'campaign_ids', 'delimiter', 'events', 'friendly_froms', 'from', 'message_ids', 'page', 'per_page', 'reason', 'recipients', 'subaccounts', 'template_ids', 'timezone', 'to', 'transmission_ids'],
+        options: {'bounce_classes': {type: 'array'}, 'campaign_ids': {type: 'array'}, 'delimiter': {}, 'events': {type: 'array'}, 'friendly_froms': {type: 'array'}, 'from': {type: 'date'}, 'message_ids': {type: 'array'}, 'page': {type: 'number'}, 'per_page': {type: 'number'}, 'reason': {}, 'recipients': {type: 'array'}, 'subaccounts': {type: 'array'}, 'template_ids': {type:'array'}, 'timezone': {}, 'to': {type: 'date'}, 'transmission_ids': {type: 'array'}},
         map: crudMap
       }
     }
