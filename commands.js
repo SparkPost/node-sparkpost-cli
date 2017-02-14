@@ -30,7 +30,7 @@ module.exports = {
     command: 'sending-domains',
     id: 'domain',
     commands: ['create', 'update', 'verify', 'get', 'delete'],
-    options: ['domain', 'tracking_domain', 'dkim.signing_domain', 'dkim.private', 'dkim.public', 'dkim.selector', 'dkim.headers', 'generate_dkim', 'dkim_key_length', 'shared_with_subaccounts'],
+    options: {'domain': {}, 'tracking_domain': {}, 'dkim.signing_domain': {}, 'dkim.private': {}, 'dkim.public': {}, 'dkim.selector': {}, 'dkim.headers': {}, 'generate_dkim': {type: 'boolean'}, 'dkim_key_length': {type: 'number'}, 'shared_with_subaccounts': {type: 'boolean'}},
     verify_options: { 'dkim_verify': { type: 'boolean' }, 'spf_verify': { type: 'boolean' }, 'postmaster_at_verify': { type: 'boolean' }, 'abuse_at_verify': { type: 'boolean' }, 'postmaster_at_token': {}, 'abuse_at_token': {} }
   }, { default: true }),
 
@@ -38,7 +38,7 @@ module.exports = {
     command: 'subaccounts',
     commands: ['create', 'update', 'get'],
     create_options: { 'name': {}, 'key_label': {}, 'key_grants': { type: 'array' }, 'key_valid_ips': { type: 'array' }, 'ip_pool': {} },
-    update_options: ['name', 'status', 'ip_pool']
+    update_options: {'name': {}, 'status': {choices: ['active', 'suspended', 'terminated']}, 'ip_pool': {}}
   }, { default: true }),
 
   'webhooks': crudSubcommands({
