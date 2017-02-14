@@ -51,6 +51,10 @@ module.exports = {
 
 Options should be added on the options key of your command. Any options not added through this object will not get passed into the `action` function. For more valid keys see the [yargs docs](https://github.com/yargs/yargs#optionskey-opt).
 
+The following are valid types for options: `string`, `boolean`, `number`, `count`, `array`, `json`, `date`, `full_date`, `file`.
+
+You can create your own if you find it necessary.
+
 ```
 'my-command': {
   options: {
