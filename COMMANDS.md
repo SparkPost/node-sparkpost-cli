@@ -51,17 +51,28 @@ module.exports = {
 
 Options should be added on the options key of your command. Any options not added through this object will not get passed into the `action` function. For more valid keys see the [yargs docs](https://github.com/yargs/yargs#optionskey-opt).
 
-````
+```
 'my-command': {
   options: {
-    name: {
+    birthday: {
       type: 'string',
-      describe: 'Your full name',
+      describe: 'Your birthday',
       demand: true
     }
   }
 }
-````
+```
+
+## Coercing values
+
+Sometimes you need to modify values before they are given to the handler. To do this you can use the coerce key. It should be an object where each key should match the key of an option and the value should be a function to modify the given value. The following would convert the above birthday option into a date object.
+
+```
+'my-command': {
+  ...
+  coerce: Date.parse
+}
+```
 
 ## Hooks
 There are 3 hooks in each command: `map`, `action`, and `callback`.
