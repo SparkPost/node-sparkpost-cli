@@ -13,6 +13,11 @@ module.exports = function(sparkpost) {
       yargs.options(this.options);
     }
 
+    // add in the coercion of options
+    if (_.has(this, 'coerce')) {
+      yargs.coerce(this.coerce);
+    }
+
     // add in the usage
     if (_.has(this, 'usage')) {
       yargs.usage(this.usage);
