@@ -2,6 +2,7 @@
 'use strict';
 
 const _ = require('lodash');
+const path = require('path');
 const store = require('./lib/helpers').store;
 const wrapFunction = require('./lib/helpers').wrapFunction;
 const SPARKPOST_API_KEY = _.get(store.get('config'), 'key') || process.env.SPARKPOST_API_KEY || 'noop';
@@ -9,7 +10,7 @@ const SparkPost = require('sparkpost');
 const sparkpost = new SparkPost(SPARKPOST_API_KEY);
 const subbable = require('./lib/subbable');
 const defaultFromSparkPost = require('./lib/default-from-sparkpost');
-const CLI_NAME = 'sparkpost';
+const CLI_NAME = path.basename(process.argv[1]);
 
 // get defaults
 const defaultHandler = require('./defaults/handler');
@@ -135,7 +136,7 @@ function setCommandDefaults(module) {
   _.defaults(self, module, {
     options: {},
     describe: `${module.command} command`,
-    usage: `Usage: ${CLI_NAME} ${module.command}${ _.keys(module.options).length > 0 ? ' [options]' : ''}`,
+    usage: `Usage: ${CLI_NAME} ${module.command} [options]`,
     handler: defaultHandler,
     map: defaultMap,
     action: defaultAction,
