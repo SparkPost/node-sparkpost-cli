@@ -31,11 +31,7 @@ run(yargs);
  */
 function buildCLI(yargs) {
   yargs
-   .version(function() {
-    return require('./package.json').version;
-  })
   .usage('Usage: $0 <command> [options] \n A command-line interface to SparkPost.')
-  .help('help')
   .wrap(null);
 }
 
@@ -159,6 +155,11 @@ function showHelpMessages(yargs, customCommands) {
   if (!_.includes(keys, ranCommand) && !_.isUndefined(ranCommand)) {
     console.log(`${ranCommand} is not a sparkpost command. See 'sparkpost --help'.`);
   }
+
+  yargs.version(function() {
+    return require('./package.json').version;
+  }).help('help');
+  
 
   // show help if no command is given
   if (yargs.argv._.length < 1) {
