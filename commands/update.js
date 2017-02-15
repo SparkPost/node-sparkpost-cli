@@ -1,16 +1,18 @@
 const exec = require('child_process').exec;
+const chalk = require('chalk');
 
 module.exports = {
   describe: 'Update the SparkPost CLI',
   action: function(callback) {
     let packageName = require('../package.json').name;
 
-    isFromNPM(packageName, function(fromNPM) {
-      if (!fromNPM) {
-        return callback(new Error('Cannot update CLI via NPM.\nIf you cloned it from github pull the latest version to update.'));
+    console.log('Checking for updates...');
+    isFromNPM(packageName, function(err, fromNPM) {
+      if (err) {
+        return callback(err);
       }
       else {
-        update(packageName, callback);
+        return update(packageName, callback);
       }
     });
   }
@@ -19,23 +21,23 @@ module.exports = {
 function isFromNPM(packageName, callback) {
   exec('npm list -g --depth=0 2>/dev/null', function(err, stdout, stderr) {
     // something went wrong (no npm, no global, idk)
-    if (err || stderr) {
-      callback(false);
+    if (!stdout) {
+      callback(stderr || err, false);
     }
     else {
       let regexForSymLink = new RegExp(`${packageName}@.*->.*`);
       let regexForFromNPM = new RegExp(`${packageName}`);
       // is symlinked with NPM
       if (regexForSymLink.exec(stdout)) {
-        callback(false);
+        callback(new Error('CLI symlinked from local repository. To update, pull the latest version from github or redownload the repository.', false));
       }
       // if its not globally installed with npm
       else if (!regexForFromNPM.exec(stdout)) {
-        callback(false);
+        callback(new Error(`CLI is not installed globally. If you installed it locally run ${chalk.yellow(`npm update ${packageName}`)}.`, false));
       }
       // we are good to go to update
       else {
-        callback(true);
+        callback(null, true);
       }
     }
   });
@@ -44,7 +46,6 @@ function isFromNPM(packageName, callback) {
 function update(packageName, callback) {
   let currentVersion = require('../package.json').version;
   
-  console.log('running');
   exec(`npm update ${packageName} -g`, function(error, stdout, stderr) {
     let newVersion = require('../package.json').version; 
     
@@ -52,7 +53,7 @@ function update(packageName, callback) {
       callback(null, 'CLI is to date.');
     }
     else {
-      console.log(null, 'CLI has been updated.');
+      console.log(null, 'CLI updated.');
     }
   });
 }
