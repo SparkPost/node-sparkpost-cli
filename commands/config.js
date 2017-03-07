@@ -1,3 +1,5 @@
+'use strict';
+
 const store = require('../lib/helpers').store;
 const _ = require('lodash');
 
@@ -28,7 +30,7 @@ module.exports = {
 
     if (updated)  {
       console.log('Successfully updated');
-    }   
+    }
 
     let config = store.get('config');
 

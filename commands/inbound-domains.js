@@ -1,3 +1,5 @@
+'use strict';
+
 const useArguments = require('../lib/helpers').useArguments;
 
 module.exports = {
