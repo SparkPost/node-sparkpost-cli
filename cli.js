@@ -33,11 +33,7 @@ run(yargs);
  */
 function buildCLI(yargs) {
   yargs
-   .version(function() {
-     return require('./package.json').version;
-   })
   .usage(`Usage: ${CLI_NAME} <command> [options] \n A command-line interface to SparkPost.`)
-  .help('help')
   .wrap(null);
 }
 
@@ -168,7 +164,15 @@ function showHelpMessages(yargs, customCommands) {
   }
 
   // show help if no command is given
-  if (yargs.argv._.length < 1) {
-    yargs.showHelp();
+  if (yargs.argv._.length === 0) {
+    yargs.version(function() {
+      return require('./package.json').version;
+    }).help('help');
+
+    const hasOptions = _.compact(_.toArray(_.omit(yargs.argv, ['_', '$0']))).length > 0;
+    
+    if (!hasOptions) {
+      yargs.showHelp();
+    }
   }
 }
