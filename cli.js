@@ -23,7 +23,7 @@ sparkpost._cliAPIKey = SPARKPOST_API_KEY;
 
 const yargs = require('yargs');
 buildCLI(yargs);
-let customCommands = buildCommands(yargs);
+const customCommands = buildCommands(yargs);
 showHelpMessages(yargs, customCommands);
 run(yargs);
 
@@ -64,7 +64,7 @@ function run(yargs) {
   yargs.recommendCommands().showHelpOnFail(false).argv;
 }
 
-/** 
+/**
  * Get the custom commands
  */
 function getCustomCommands() {
@@ -76,7 +76,7 @@ function getCustomCommands() {
  */
 function keysToCommand(customCommands) {
   _.each(customCommands, (module, key) => {
-    
+
     module.command = module.command || key;
 
     if (_.isPlainObject(module.commands)) {
@@ -95,7 +95,7 @@ function setOptionDefaults(module) {
 
   // if its an array, turn it into an object
   if (_.isArray(module.options)) {
-    let optionsObject = {};
+    const optionsObject = {};
     _.each(module.options, (option) => {
       optionsObject[option] = {};
     });
@@ -103,10 +103,10 @@ function setOptionDefaults(module) {
     module.options = optionsObject;
   }
 
-  let optionKeys = _.keys(module.options);
+  const optionKeys = _.keys(module.options);
 
-  for (var i = 0; i < optionKeys.length; i++) {
-    let key = optionKeys[i];
+  for (let i = 0; i < optionKeys.length; i++) {
+    const key = optionKeys[i];
 
     _.defaults(module.options[key], {
       describe: key,
@@ -123,13 +123,13 @@ function setOptionDefaults(module) {
  * set defaults on modules
  */
 function setCommandDefaults(module) {
-  let self = {};
+  const newModule = {};
 
   if (module.usage) {
     module.usage = module.usage.replace(/\$0/g, CLI_NAME);
   }
 
-  _.defaults(self, module, {
+  _.defaults(newModule, module, {
     options: {},
     describe: `${module.command} command`,
     usage: `Usage: ${CLI_NAME} ${module.command} [options]`,
@@ -141,15 +141,15 @@ function setCommandDefaults(module) {
       if (this.message) {
         return console.log(this.message);
       }
-      
+
       return this.yargs.showHelp();
     }
   });
 
   // override the builder
-  self.builder = wrapFunction(module.builder, defaultBuilder);
+  newModule.builder = wrapFunction(module.builder, defaultBuilder);
 
-  return self;
+  return newModule;
 }
 
 /**
@@ -157,8 +157,8 @@ function setCommandDefaults(module) {
  */
 function showHelpMessages(yargs, customCommands) {
   // they ran a non-existent top level command
-  let keys = _.map(customCommands, 'command');
-  let ranCommand = _.first(yargs.argv._);
+  const keys = _.map(customCommands, 'command');
+  const ranCommand = _.first(yargs.argv._);
   if (!_.includes(keys, ranCommand) && !_.isUndefined(ranCommand)) {
     console.log(`${ranCommand} is not a sparkpost command. See 'sparkpost --help'.`);
   }

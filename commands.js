@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const crudSubcommands = require('./lib/helpers').crudSubcommands;
 const crudMap = require('./lib/helpers').crudMap;
 const checkAPIKey = require('./lib/helpers').checkAPIKey;
@@ -48,7 +47,7 @@ module.exports = {
     validate_options: ['message'],
     filters: ['timezone'],
     'get-batch-status_filters': ['limit'],
-    'get-samples_filters': ['events'],
+    'get-samples_filters': ['events']
   }, { default: true }),
 
   'account': {
@@ -60,7 +59,7 @@ module.exports = {
         }, callback);
       }
     }
-  },
+  }
 };
 
 // TODO: recipient-lists, suppression-list, templates, transmissions
