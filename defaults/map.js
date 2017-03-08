@@ -1,5 +1,3 @@
 'use strict';
 
-module.exports = (keys, values, argv) => {
-  return values;
-};
+module.exports = (keys, values, argv) => values;
