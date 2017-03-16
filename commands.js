@@ -13,7 +13,7 @@ module.exports = {
     default: true,
     commands: {
       search: {
-        options: ['bounce_classes', 'campaign_ids', 'delimiter', 'events', 'friendly_froms', 'from', 'message_ids', 'page', 'per_page', 'reason', 'recipients', 'subaccounts', 'template_ids', 'timezone', 'to', 'transmission_ids'],
+        options: {'bounce_classes': {type: 'array'}, 'campaign_ids': {type: 'array'}, 'delimiter': {}, 'events': {type: 'array'}, 'friendly_froms': {type: 'array'}, 'from': {type: 'date'}, 'message_ids': {type: 'array'}, 'page': {type: 'number'}, 'per_page': {type: 'number'}, 'reason': {}, 'recipients': {type: 'array'}, 'subaccounts': {type: 'array'}, 'template_ids': {type: 'array'}, 'timezone': {}, 'to': {type: 'date'}, 'transmission_ids': {type: 'array'}},
         map: crudMap
       }
     }
@@ -29,7 +29,7 @@ module.exports = {
     command: 'sending-domains',
     id: 'domain',
     commands: ['create', 'update', 'verify', 'get', 'delete'],
-    options: ['domain', 'tracking_domain', 'dkim.signing_domain', 'dkim.private', 'dkim.public', 'dkim.selector', 'dkim.headers', 'generate_dkim', 'dkim_key_length', 'shared_with_subaccounts'],
+    options: {'domain': {}, 'tracking_domain': {}, 'dkim.signing_domain': {}, 'dkim.private': {}, 'dkim.public': {}, 'dkim.selector': {}, 'dkim.headers': {}, 'generate_dkim': {type: 'boolean'}, 'dkim_key_length': {type: 'number'}, 'shared_with_subaccounts': {type: 'boolean'}},
     verify_options: { 'dkim_verify': { type: 'boolean' }, 'spf_verify': { type: 'boolean' }, 'postmaster_at_verify': { type: 'boolean' }, 'abuse_at_verify': { type: 'boolean' }, 'postmaster_at_token': {}, 'abuse_at_token': {} }
   }, { default: true }),
 
@@ -37,7 +37,7 @@ module.exports = {
     command: 'subaccounts',
     commands: ['create', 'update', 'get'],
     create_options: { 'name': {}, 'key_label': {}, 'key_grants': { type: 'array' }, 'key_valid_ips': { type: 'array' }, 'ip_pool': {} },
-    update_options: ['name', 'status', 'ip_pool']
+    update_options: {'name': {}, 'status': {choices: ['active', 'suspended', 'terminated']}, 'ip_pool': {}}
   }, { default: true }),
 
   'webhooks': crudSubcommands({

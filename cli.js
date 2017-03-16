@@ -170,7 +170,7 @@ function showHelpMessages(yargs, customCommands) {
     }).help('help');
 
     const hasOptions = _.compact(_.toArray(_.omit(yargs.argv, ['_', '$0']))).length > 0;
-    
+
     if (!hasOptions) {
       yargs.showHelp();
     }
