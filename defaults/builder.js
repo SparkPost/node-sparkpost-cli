@@ -1,3 +1,5 @@
+'use strict';
+
 const _ = require('lodash');
 const moment = require('moment');
 const wrapFunction = require('../lib/helpers').wrapFunction;
@@ -7,6 +9,9 @@ module.exports = function(sparkpost) {
   return function(yargs) {
     // add yargs reference to object
     this.yargs = yargs;
+
+    // yargs help for the commands
+    yargs.help('help');
 
     // add sparkpost reference to object
     this.sparkpost = sparkpost;
@@ -54,7 +59,7 @@ const defaultCoerceFunction = (val) => val;
 function handleCustomTypes() {
   _.each(this.options || {}, (option, key) => {
     if (!_.includes(BASE_OPTION_TYPES, option.type)) {
-      option.describe += `  [${option.type}]`
+      option.describe += `  [${option.type}]`;
     }
 
     // add in the coercion for the custom types
@@ -62,6 +67,6 @@ function handleCustomTypes() {
       this.coerce = this.coerce || {};
 
       this.coerce[key] = wrapFunction(this.coerce[key] || defaultCoerceFunction, CUSTOM_TYPES[option.type]);
-    }      
+    }
   });
 }

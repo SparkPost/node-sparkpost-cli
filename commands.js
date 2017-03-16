@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const crudSubcommands = require('./lib/helpers').crudSubcommands;
 const crudMap = require('./lib/helpers').crudMap;
 const checkAPIKey = require('./lib/helpers').checkAPIKey;
@@ -14,7 +13,7 @@ module.exports = {
     default: true,
     commands: {
       search: {
-        options: {'bounce_classes': {type: 'array'}, 'campaign_ids': {type: 'array'}, 'delimiter': {}, 'events': {type: 'array'}, 'friendly_froms': {type: 'array'}, 'from': {type: 'date'}, 'message_ids': {type: 'array'}, 'page': {type: 'number'}, 'per_page': {type: 'number'}, 'reason': {}, 'recipients': {type: 'array'}, 'subaccounts': {type: 'array'}, 'template_ids': {type:'array'}, 'timezone': {}, 'to': {type: 'date'}, 'transmission_ids': {type: 'array'}},
+        options: {'bounce_classes': {type: 'array'}, 'campaign_ids': {type: 'array'}, 'delimiter': {}, 'events': {type: 'array'}, 'friendly_froms': {type: 'array'}, 'from': {type: 'date'}, 'message_ids': {type: 'array'}, 'page': {type: 'number'}, 'per_page': {type: 'number'}, 'reason': {}, 'recipients': {type: 'array'}, 'subaccounts': {type: 'array'}, 'template_ids': {type: 'array'}, 'timezone': {}, 'to': {type: 'date'}, 'transmission_ids': {type: 'array'}},
         map: crudMap
       }
     }
@@ -48,7 +47,7 @@ module.exports = {
     validate_options: ['message'],
     filters: ['timezone'],
     'get-batch-status_filters': ['limit'],
-    'get-samples_filters': ['events'],
+    'get-samples_filters': ['events']
   }, { default: true }),
 
   'account': {
@@ -60,7 +59,7 @@ module.exports = {
         }, callback);
       }
     }
-  },
+  }
 };
 
 // TODO: recipient-lists, suppression-list, templates, transmissions

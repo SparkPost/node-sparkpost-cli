@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const isJSON = require('../lib/helpers').isJSON;
 
 /**
  * the default handler for the cli command
@@ -13,7 +14,7 @@ module.exports = function(argv) {
     return console.log(`Unknown subcommand: ${this.commandNotFound}`);
   }
 
-  let keys = getOptionKeys(_.get(this, 'options') || {});
+  const keys = getOptionKeys(_.get(this, 'options') || {});
   let values = getOptionValues(keys, argv);
 
   values = this.map(keys, values, argv);
@@ -30,14 +31,13 @@ module.exports = function(argv) {
  * @returns {array} givenOptions - the values that were asked for - null if not given
  */
 function getOptionValues(optionsKeys, argv) {
-  optionsKeys = _.uniq(_.map(optionsKeys, (key) => {
-      return key.split('.')[0];
-    }));
+  optionsKeys = _.uniq(_.map(optionsKeys, (key) => key.split('.')[0]));
 
-  let givenOptions = [];
+  const givenOptions = [];
 
   _.each(optionsKeys, (key) => {
-    givenOptions.push(_.get(argv, key) || null);
+    const value = _.get(argv, key) || null;
+    givenOptions.push(isJSON(value) ? JSON.parse(value) : value);
   });
 
   return givenOptions;
@@ -51,7 +51,7 @@ function getOptionValues(optionsKeys, argv) {
  * @return {Array} keys - the keys of the options
  */
 function getOptionKeys(options) {
-  let optionsArray = _.map(options, (option, name) => {
+  const optionsArray = _.map(options, (option, name) => {
     option.name = name;
     return option;
   });
