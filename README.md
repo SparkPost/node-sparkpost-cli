@@ -83,4 +83,4 @@ For a full list of commands run `sparkpost --help`.
 
 We love community contributions. Checkout [CONTRIBUTING.md](https://github.com/SparkPost/node-sparkpost-cli/blob/master/CONTRIBUTING.md) and [COMMANDS.md](https://github.com/SparkPost/node-sparkpost-cli/blob/master/COMMANDS.md) for guides on adding to the CLI. 
 
-[sparkpost sign up]: https://app.sparkpost.com/sign-up
+[sparkpost sign up]: https://app.sparkpost.com/join
